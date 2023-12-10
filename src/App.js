@@ -1,25 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
+const Jimp = require('jimp');
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const addTextWatermarkToImage = async function(inputFile, outputFile, text) {
+  const image = await Jimp.read(inputFile);
+  const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
+  image.print(font, 10, 10, text);
+  await image.quality(100).writeAsync(outputFile);
+};
 
-export default App;
+addTextWatermarkToImage('./test.jpg', './test-with-watermark.jpg', 'Hello world');
